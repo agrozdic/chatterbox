@@ -1,7 +1,6 @@
 package com.example.rs.ftn.ConnectSocialNetworkProject.model.entity;
 
 import java.time.LocalDateTime;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +26,12 @@ public class Post {
 	   @Column(nullable = false,unique = false)
 	   private LocalDateTime creationDate;
 	   
-	  // @Column(nullable = true,unique = false)
-	  // private List<String> imagePaths;
+	   @Column(nullable = false,unique = false)
+	   private boolean isDeleted;
+	   
+	   @OneToMany( mappedBy = "belongsTo")
+	   @Column(nullable = true,unique = false)
+	    private List<Image> imagePaths;
 	   
 	   @ManyToOne(fetch = FetchType.EAGER)
 	   @JoinColumn(name = "userId",nullable = true)
@@ -49,13 +52,14 @@ public class Post {
 	   
 	   public Post() {}
 
-	public Post(Long postId, String content, LocalDateTime creationDate, User user) {
+	public Post(Long postId, String content, LocalDateTime creationDate, User user,boolean isDeleted) {
 		super();
 		this.postId = postId;
 		this.content = content;
 		this.creationDate = creationDate;
 		//this.imagePaths = imagePaths;
 		this.user = user;
+		this.isDeleted = false;
 	}
 
 	public Long getId() {
@@ -82,13 +86,21 @@ public class Post {
 		this.creationDate = creationDate;
 	}
 
-//	public List<String> getImagePaths() {
-//		return imagePaths;
-//	}
-//
-//	public void setImagePaths(List<String> imagePaths) {
-//		this.imagePaths = imagePaths;
-//	}
+	public List<String> getImagePaths() {
+		List<String> imagePathsR = new ArrayList<>();
+		if  (this.imagePaths != null) {
+			for (Image i: this.imagePaths) {
+				imagePathsR.add(i.getPath());
+			}
+		}
+		
+		return imagePathsR;
+
+	}
+
+	public void setImagePaths(List<Image> imagePaths) {
+		this.imagePaths = imagePaths;
+	}
 
 	public String getUser() {
 		return user.getUsername();
@@ -98,5 +110,55 @@ public class Post {
 		this.user = user;
 	}
 
+	public Long getPostId() {
+		return postId;
+	}
+
+	public void setPostId(Long postId) {
+		this.postId = postId;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public List<Reaction> getReactions() {
+		return reactions;
+	}
+
+	public void setReactions(List<Reaction> reactions) {
+		this.reactions = reactions;
+	}
+
+	public List<Report> getReports() {
+		return reports;
+	}
+
+	public void setReports(List<Report> reports) {
+		this.reports = reports;
+	}
+
+	public Long getGroupPosted() {
+		if (this.groupPosted == null) {
+			return (long) -1;
+		}
+		return groupPosted.getGroupId();
+	}
+
+	public void setGroupPosted(Group groupPosted) {
+		this.groupPosted = groupPosted;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
 }

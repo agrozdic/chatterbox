@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.rs.ftn.ConnectSocialNetworkProject.exception.CommentNotFoundException;
 import com.example.rs.ftn.ConnectSocialNetworkProject.model.entity.Comment;
+import com.example.rs.ftn.ConnectSocialNetworkProject.model.entity.Post;
 import com.example.rs.ftn.ConnectSocialNetworkProject.repository.CommentRepo;
 
 @Service
@@ -41,5 +42,23 @@ public class CommentService {
 		public Comment updateComment(Comment Comment) {
 			return commentRepo.save(Comment);
 		}
+		 
+		public List<Comment> findAllUndeletedComments() {
+			return commentRepo.findAllByIsDeletedFalse();
+		}
+		
+		public List<Comment> findAllByCommentedPostAndParentCommentIsNullAndIsDeletedFalse(Post commentedPost) {
+			return commentRepo.findAllByCommentedPostAndParentCommentIsNullAndIsDeletedFalse(commentedPost);
+		}
+		
+		 public Comment addComment(Comment comment) {   
+		       return commentRepo.save(comment);
+	    }
+		 
+		 public List<Comment> findAllByPost(Post commentedPost) {
+			 return commentRepo.findAllByCommentedPost(commentedPost);
+		 }
+		
+		  
 	  
 }

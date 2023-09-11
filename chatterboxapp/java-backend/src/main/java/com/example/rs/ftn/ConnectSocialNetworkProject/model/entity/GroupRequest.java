@@ -23,22 +23,27 @@ public class GroupRequest {
 	   @Column(nullable = false)
 	   private LocalDateTime createdAt;
 	   
-	   @Column(nullable = false)
-	   private LocalDateTime at;
+	   @Column(nullable = true)
+	   private LocalDateTime at; //kada je zahtev prihvacen
 	   
-	   @ManyToOne(fetch = FetchType.LAZY)
+	   @ManyToOne(fetch = FetchType.EAGER)
 	   @JoinColumn(name = "username")
 	   private User user;
 	   
+	   @ManyToOne(fetch = FetchType.EAGER)
+	   @JoinColumn(name = "groupId")
+	   private Group group;
+	   
 	   public GroupRequest() {}
 
-	public GroupRequest(Long groupRequestId, boolean approved, LocalDateTime createdAt, LocalDateTime at, User user) {
+	public GroupRequest(Long groupRequestId, boolean approved, LocalDateTime createdAt, LocalDateTime at, User user,Group group) {
 		super();
 		this.groupRequestId = groupRequestId;
 		this.approved = approved;
 		this.createdAt = createdAt;
 		this.at = at;
 		this.user = user;
+		this.group = group; 
 	}
 
 	public Long getId() {
@@ -73,12 +78,30 @@ public class GroupRequest {
 		this.at = at;
 	}
 
-	public User getUser() {
-		return user;
+	public String getUser() {
+		return user.getUsername();
 	}
 
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public Long getGroupRequestId() {
+		return groupRequestId;
+	}
+
+	public void setGroupRequestId(Long groupRequestId) {
+		this.groupRequestId = groupRequestId;
+	}
+
+	public Long getGroup() {
+		return group.getGroupId();
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+	
+	
 	  	   
 }

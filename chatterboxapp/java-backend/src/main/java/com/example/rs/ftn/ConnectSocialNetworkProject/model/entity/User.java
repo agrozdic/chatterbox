@@ -69,6 +69,7 @@ public class User {
 	   @OneToMany(mappedBy = "userReacted")
 	   private List<Reaction> reactions;
 	   
+	   
 		@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 		private List<Post> posts;
 		
@@ -221,13 +222,13 @@ public class User {
 		this.isDeleted = isDeleted;
 	}
 
-	public List<Image> getUserImages() {
-		return userImages;
-	}
-
-	public void setUserImages(List<Image> userImages) {
-		this.userImages = userImages;
-	}
+//	public List<Image> getUserImages() {
+//		return userImages;
+//	}
+//
+//	public void setUserImages(List<Image> userImages) {
+//		this.userImages = userImages;
+//	}
 	
 	
 	

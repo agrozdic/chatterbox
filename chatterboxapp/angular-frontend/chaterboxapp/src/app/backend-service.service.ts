@@ -6,6 +6,15 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { ChangePassword } from './change-password';
 import jwt_decode from "jwt-decode";
+import { Group } from 'src/group';
+import { Post } from './post';
+import { updatedGroupData } from './updatedGroupData';
+import { updatedPostData } from './updatedPostData';
+import { updatedCommentData } from './updatedCommentData';
+import { GroupRequest } from './groupRequest';
+import { Comment } from 'src/app/comment';
+import { CreateComment } from './commentCreate';
+import { UpdatePostContent } from 'updatePostContent';
 
 @Injectable({
   providedIn: 'root'
@@ -30,17 +39,31 @@ export class BackendServiceService {
   return this.http.post(this.apiUrl + '/user/registration', user);
   }
 
-  getUserPosts(username: string) {
+  getUserPosts() {
 
     let headers = new HttpHeaders({
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${localStorage.getItem('token')}`
   })
 
+
   let requestOptions = { headers: headers };  
 return this.http.get(this.apiUrl + '/post/user', requestOptions);
 
   }
+
+  getGroups() {
+
+    let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+    })
+
+    let requestOptions = { headers: headers };  
+    return this.http.get(this.apiUrl + '/group/all', requestOptions);
+  }
+
+
 
   getUser(): Observable<RegistrationUser> {
   let headers = new HttpHeaders({
@@ -61,4 +84,199 @@ return this.http.get(this.apiUrl + '/post/user', requestOptions);
   let requestOptions = { headers: headers };
   return this.http.post<JSON>(this.apiUrl + '/user/changePassword',changePassword,requestOptions);
 }
+
+getGroupDetails(groupId: number): Observable<Group> {
+
+  let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+    })
+
+     let requestOptions = { headers: headers }; 
+     const url = `${this.apiUrl}/group/${groupId}`;
+     return this.http.get<Group>(url, requestOptions);
+
+}
+
+deleteGroup(groupId: number) {
+   let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+    let requestOptions = { headers: headers };
+    const url = `${this.apiUrl}/group/delete/${groupId}`;
+     return this.http.delete(url, requestOptions);
+
+}
+
+deletePost(postId: number) {
+
+  let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+    let requestOptions = { headers: headers };
+    const url = `${this.apiUrl}/post/delete/${postId}`;
+     return this.http.delete(url, requestOptions);
+
+}
+
+checkMembership(groupId: number) {
+   let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+      let requestOptions = { headers: headers };
+
+   const url = `${this.apiUrl}/group/isAdmin/${groupId}`;
+     return this.http.get(url, requestOptions);
+
+}
+
+getPostDetails(postId: number): Observable<Post> {
+  let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+    })
+
+     let requestOptions = { headers: headers }; 
+     const url = `${this.apiUrl}/post/${postId}`;
+     return this.http.get<Post>(url, requestOptions);
+
+}
+
+updatePost(postId: number,updatedPostData: UpdatePostContent) {
+    let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+    })
+    let requestOptions = { headers: headers }; 
+    const url = `${this.apiUrl}/post/update/${postId}`;
+     return this.http.put<Post>(url,updatedPostData, requestOptions);
+
+}
+updateGroup(groupId: number, updatedGroupData: updatedGroupData) {
+  let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+  let requestOptions = { headers: headers }; 
+  const url = `${this.apiUrl}/group/update/${groupId}`;
+  return this.http.put<Group>(url, updatedGroupData, requestOptions);
+}
+
+createPost(post: updatedPostData) {
+  let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+  let requestOptions = { headers: headers }; 
+  const url = `${this.apiUrl}/post/add`;
+  return this.http.post<Post>(url,post, requestOptions);
+}
+
+createGroup(group: updatedGroupData) {
+  let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+  let requestOptions = { headers: headers }; 
+  const url = `${this.apiUrl}/group/add`;
+  return this.http.post<Group>(url,group, requestOptions);
+}
+
+joinGroup(groupRequest: GroupRequest) {
+    let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+    let requestOptions = { headers: headers }; 
+      const url = `${this.apiUrl}/groupRequest/add`;
+      return this.http.post<GroupRequest>(url,groupRequest, requestOptions);
+
+}
+
+getGroupRequest(groupId: number): Observable<GroupRequest> {
+  let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+
+  let requestOptions = { headers: headers }; 
+    const url = `${this.apiUrl}/groupRequest/${groupId}`;
+  return this.http.get<GroupRequest>(url, requestOptions);
+}
+
+getPostsInGroup(groupId: number) {
+   let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+   let requestOptions = { headers: headers }; 
+    const url = `${this.apiUrl}/group/posts/${groupId}`;
+  return this.http.get<Array<Post>>(url, requestOptions);
+}
+
+getPostComments(postId: number) {
+  let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+   let requestOptions = { headers: headers }; 
+    const url = `${this.apiUrl}/comment/post/${postId}`;
+  return this.http.get<Array<Comment>>(url, requestOptions);
+}
+
+getCommentDetails(commentId: number): Observable<Comment>{
+  let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+   let requestOptions = { headers: headers }; 
+    const url = `${this.apiUrl}/comment/${commentId}`;
+  return this.http.get<Comment>(url, requestOptions);
+}
+
+createComment(comment: CreateComment,postId: number): Observable<Comment> {
+  let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+  let requestOptions = { headers: headers }; 
+  const url = `${this.apiUrl}/comment/add/${postId}`;
+  return this.http.post<Comment>(url,comment, requestOptions);
+}
+
+
+updateComment(commentId: number, updatedCommentData: updatedCommentData) {
+  let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+  let requestOptions = { headers: headers }; 
+  const url = `${this.apiUrl}/comment/update/${commentId}`;
+  return this.http.put<Comment>(url, updatedCommentData, requestOptions);
+}
+
+deleteComment(id: number) {
+   let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+    let requestOptions = { headers: headers };
+    const url = `${this.apiUrl}/comment/delete/${id}`;
+     return this.http.delete(url, requestOptions);
+
+}
+
+replyToComment(postId: number,id: number) {
+   let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+  let requestOptions = { headers: headers };
+    const url = `${this.apiUrl}/comment/reply/${postId}/${id}`;
+     return this.http.delete(url, requestOptions);
+}
+
 }
