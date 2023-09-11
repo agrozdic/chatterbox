@@ -1,6 +1,7 @@
 package com.example.rs.ftn.ConnectSocialNetworkProject.model.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 
 public class Group {
 	
-	 @Id
+	   @Id
 	   @GeneratedValue(strategy = GenerationType.IDENTITY)
 	   private Long groupId;
 	   
@@ -33,6 +34,9 @@ public class Group {
 	   @Column(nullable = false)
 	   private boolean isSuspended;
 	   
+	   @Column (nullable = false, unique = false)
+	   private boolean isDeleted;
+	   
 	   @Column(nullable = true)
 	   private String suspendedReason;
 	   
@@ -45,15 +49,16 @@ public class Group {
 	   public Group() {}
 	  
 
-	  public Group(Long groupId, String name, String description, LocalDate createdAt, boolean isSuspended,
+	  public Group(Long groupId, String name, String description, LocalDate createdAt, boolean isSuspended, boolean isDeleted,
 			String suspendedReason, List<GroupAdmin> admins, List<Post> posts) {
 		super();
 		this.groupId = groupId;
 		this.name = name;
 		this.description = description;
 		this.createdAt = createdAt;
-		this.isSuspended = isSuspended;
-		this.suspendedReason = suspendedReason;
+		this.isSuspended = false;
+		this.isDeleted = false;
+		this.suspendedReason = null;
 		this.admins = admins;
 		this.posts = posts;
 	}
@@ -115,6 +120,17 @@ public class Group {
 	public boolean isSuspended() {
 		return isSuspended;
 	}
+	
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 
 	public void setSuspended(boolean isSuspended) {
 		this.isSuspended = isSuspended;
@@ -127,8 +143,14 @@ public class Group {
 	public void setSuspendedReason(String suspendedReason) {
 		this.suspendedReason = suspendedReason;
 	}
-
-
+	
+	public void addGroupAdmin(GroupAdmin groupAdmin) {
+	    if (this.admins == null) {
+	        this.admins = new ArrayList<>();
+	    }
+	    this.admins.add(groupAdmin);
+	    groupAdmin.setAdminGroup(this);
+	}
 
 	public List<Post> getPosts() {
 		return posts;

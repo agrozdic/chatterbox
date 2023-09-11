@@ -12,6 +12,11 @@ import { RegistrationComponent } from './registration/registration.component';
 import { HeaderRegisteredUserComponent } from './header-registered-user/header-registered-user.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { FeedComponent } from './feed/feed.component';
+import { FooterComponent } from './footer/footer.component';
+import { RegistrationSuccesfulComponent } from './registration-succesful/registration-succesful.component';
+import { ChangePasswordComponent } from './user-profile/change-password/change-password.component';
+import { PostsComponent } from './feed/posts/posts.component';
+import { GroupsComponent } from './feed/groups/groups.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +27,12 @@ import { FeedComponent } from './feed/feed.component';
     RegistrationComponent,
     HeaderRegisteredUserComponent,
     UserProfileComponent,
-    FeedComponent
+    FeedComponent,
+    FooterComponent,
+    RegistrationSuccesfulComponent,
+    ChangePasswordComponent,
+    PostsComponent,
+    GroupsComponent
   ],
   imports: [
     BrowserModule,
