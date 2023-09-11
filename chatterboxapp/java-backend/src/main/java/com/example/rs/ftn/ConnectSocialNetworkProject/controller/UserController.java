@@ -28,12 +28,15 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.rs.ftn.ConnectSocialNetworkProject.enumeration.Role;
 import com.example.rs.ftn.ConnectSocialNetworkProject.exception.UserNotFoundException;
 import com.example.rs.ftn.ConnectSocialNetworkProject.message.Message;
+import com.example.rs.ftn.ConnectSocialNetworkProject.model.entity.Image;
 import com.example.rs.ftn.ConnectSocialNetworkProject.model.entity.User;
 import com.example.rs.ftn.ConnectSocialNetworkProject.requestModels.ChangePasswordRequest;
 import com.example.rs.ftn.ConnectSocialNetworkProject.requestModels.JwtReturn;
 import com.example.rs.ftn.ConnectSocialNetworkProject.requestModels.UserLogin;
 import com.example.rs.ftn.ConnectSocialNetworkProject.requestModels.UserRegister;
+import com.example.rs.ftn.ConnectSocialNetworkProject.requestModels.UserUpdate;
 import com.example.rs.ftn.ConnectSocialNetworkProject.security.JwtUtil;
+import com.example.rs.ftn.ConnectSocialNetworkProject.service.ImageService;
 import com.example.rs.ftn.ConnectSocialNetworkProject.service.UserService;
 
 @RestController
@@ -44,10 +47,12 @@ public class UserController {
 	private PasswordEncoder passwordEncoder;
 	
 	private final UserService userService;
+	private final ImageService imageService;
 	private final JwtUtil jwtUtil;
 	
-	public UserController(UserService userService,JwtUtil jwtUtil) {
+	public UserController(UserService userService,ImageService imageService,JwtUtil jwtUtil) {
 		this.userService = userService;
+		this.imageService = imageService;
 		this.jwtUtil = jwtUtil;
 	}
 	
@@ -89,12 +94,31 @@ public class UserController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<User> updateUser(@RequestBody User user) {
-		User updatedUser = userService.updateUser(user);
-		return new ResponseEntity<>(updatedUser,HttpStatus.OK);
-		
+	public ResponseEntity<User> updateUser(Authentication authentication, @RequestBody UserUpdate user) {
+	    String username = authentication.getName();
+	    User userLogged = null;
+	    try {
+	        userLogged = userService.findOne(username);
+	    } catch (UserNotFoundException e) {
+	        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+	    }
+
+	    userLogged.setFirstName(user.getFirstName());
+	    userLogged.setLastName(user.getLastName());
+	    userLogged.setUsername(user.getUsername());
+	    userLogged.setEmail(user.getEmail());
+
+	    if (user.getProfileImage() != null && user.getProfileImage().getPath() != null) {
+	        Image image = new Image();
+	        image.setPath(user.getProfileImage().getPath());
+	        image.setPostedImageBy(userLogged);
+	        userLogged.setProfileImage(image); 
+	        imageService.addImage(image);
+	    }
+
+	    User updatedUser = userService.updateUser(userLogged);
+	    return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 	}
-	
 	
 	@DeleteMapping("/delete/{username}")
 	public ResponseEntity<?> deleteUser(@PathVariable("username") String username) {

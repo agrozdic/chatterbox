@@ -16,6 +16,9 @@ import { Comment } from 'src/app/comment';
 import { CreateComment } from './commentCreate';
 import { UpdatePostContent } from 'updatePostContent';
 import { CountReactions } from './countReactions';
+import { Reaction } from 'src/reaction';
+import { ReactionType } from './reactionType';
+import { UserUpdate } from './userUpdate';
 
 @Injectable({
   providedIn: 'root'
@@ -304,6 +307,39 @@ countReactionsPost(postId: number) {
   let requestOptions = { headers: headers };
     const url = `${this.apiUrl}/post/reactions/${postId}`;
   return this.http.get<CountReactions>(url, requestOptions);
+}
+
+reactToPost(postId: number, reaction: { type: ReactionType }) {
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+  const requestOptions = { headers: headers };
+  const url = `${this.apiUrl}/reaction/add/${postId}`;
+  
+  return this.http.post<Reaction>(url, reaction, requestOptions);
+}
+
+reactToComment(id: number, reaction: { type: ReactionType }) {
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+  const requestOptions = { headers: headers };
+  const url = `${this.apiUrl}/reaction/add/comment/${id}`;
+  
+  return this.http.post<Reaction>(url, reaction, requestOptions);
+}
+
+updateUser(updatedUserData: UserUpdate) {
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+  const requestOptions = { headers: headers };
+  const url = `${this.apiUrl}/user/update`;
+  
+  return this.http.put<UserUpdate>(url,updatedUserData,requestOptions);
 }
 
 
