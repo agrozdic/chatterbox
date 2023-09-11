@@ -23,7 +23,7 @@
                     <div class="tab-content p-0">
                         <!-- begin #profile-friends tab -->
                         <div class="tab-pane fade in active show" id="profile-friends">
-                            <h4 class="m-t-0 m-b-20">Add friend</h4>
+                            <h4 class="m-t-0 m-b-20">Korinici</h4>
                             <!-- begin row -->
                             <div class="row row-space-2">
 
@@ -40,7 +40,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-primary" (click)="sendRequest(user)">Send request </button>
+                                    <button [ngStyle]="{'background-color': '#3E1B59', 'border': '#3E1B59', 'margin': '1px'}" type="button" class="btn btn-primary" (click)="sendRequest(user)" >Posalji zahtev </button>
 
                                 </div>
                                 <!-- end col-6 -->

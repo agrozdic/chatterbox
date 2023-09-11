@@ -17,8 +17,8 @@
             name="commentUser" disabled>
     </div>
 
-    <button type="submit" class="btn btn-primary" (click)="updateComment()">Edit comment </button>
-    <button type="button" class="btn btn-danger" (click)="deleteComment()">Delete</button>
+    <button [ngStyle]="{'background-color': '#3E1B59', 'border': '#3E1B59', 'margin': '1px'}" type="submit" class="btn btn-primary" (click)="updateComment()">Edit comment </button>
+    <button  [ngStyle]="{'margin': '1px'}" type="button" class="btn btn-danger" (click)="deleteComment()">Delete</button>
     <br>
     <br>
      <div class="alert alert-success" *ngIf="isCommentUpdated">

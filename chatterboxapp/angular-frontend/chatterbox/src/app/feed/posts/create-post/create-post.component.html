@@ -2,21 +2,21 @@
 <div class="d-flex justify-content-center">
 
 <form>
-    <h1> Post something, what's on your mind? </h1>
+    <h1> Dodajte objavu </h1>
     <div class="form-group">
-        <label for="inputContent"> Content </label>
-        <input type="text" class="form-control" id="inputContent" placeholder="Content"
+        <label for="inputContent"> Sadrzaj </label>
+        <input type="text" class="form-control" id="inputContent" placeholder="Sadrzaj"
           name="postContent"[(ngModel)]="postContent">
     </div>
     <div class="form-group">
-        <label for="inputImage">Image</label>
+        <label for="inputImage">Slika</label>
         <input type="file" class="form-control" id="inputImage" name="image" (change)="onImageSelected($event)">
     </div>
-    <button type="submit" class="btn btn-primary" (click)="createPost()"> Post! </button>
+    <button [ngStyle]="{'background-color': '#3E1B59', 'border': '#3E1B59', 'margin': '1px'}" type="submit" class="btn btn-primary" (click)="createPost()"> Objavi </button>
     <br>
     <br>
     <div class="alert alert-success" *ngIf="isPostCreated">
-        Post created successfully.
+        Uspesno kreirana objava.
     </div>
 
         <img *ngIf="selectedImage" [src]="imageToShow" alt="Selected Image">

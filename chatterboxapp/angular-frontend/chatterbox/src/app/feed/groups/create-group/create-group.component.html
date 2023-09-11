@@ -2,24 +2,24 @@
 <div class="d-flex justify-content-center">
 
     <form>
-        <h1> Create group </h1>
+        <h1> Kreirajte grupu </h1>
         <div class="form-group">
-            <label for="inputContent"> Name </label>
-            <input type="text" class="form-control" id="inputContent" placeholder="Name" name="groupName"
+            <label for="inputContent"> Naziv </label>
+            <input type="text" class="form-control" id="inputContent" placeholder="Naziv" name="groupName"
                 [(ngModel)]="groupName">
         </div>
         <div class="form-group">
-            <label for="inputContent"> Description </label>
-            <input type="text" class="form-control" id="inputContent" placeholder="Description" name="groupDescription"
+            <label for="inputContent"> Opis </label>
+            <input type="text" class="form-control" id="inputContent" placeholder="Opis" name="groupDescription"
                 [(ngModel)]="groupDescription">
         </div>
-        <button type="submit" class="btn btn-primary" (click)="createGroup()"> Create! </button>
+        <button [ngStyle]="{'background-color': '#3E1B59', 'border': '#3E1B59', 'margin': '1px'}" type="submit" class="btn btn-primary"  (click)="createGroup() "> Kreiraj </button>
 
         <br>
         <br>
 
         <div class="alert alert-success" *ngIf="isGroupCreated">
-            Group created successfully.
+            Uspesno kreirana grupa.
         </div>
     </form>
 </div>

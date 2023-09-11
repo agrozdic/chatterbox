@@ -8,7 +8,7 @@
 
 <div class="container">
     <div class="top">
-        <h2>Friend requests</h2>
+        <h2>Zahtevi za prijateljstva</h2>
     </div>
     <div *ngFor="let request of requests" class="row">
 
@@ -18,19 +18,19 @@
                     <img src="" class="img-circle" width="60px">
                 </div>
                 <div class="col-sm-8">
-                    <h4><p> Username: {{request.sentBy}}</p></h4>
-                    <h4> <p>Full name: {{request.userSentByInfo}}</p></h4>
+                    <h4><p> Korisnicko ime: {{request.sentBy}}</p></h4>
+                    <h4> <p>Ime: {{request.userSentByInfo}}</p></h4>
 
-                    <p><a href="#">4 mutual friends</a></p>
+                    <p><a href="#">0 zajednickih prijatelja</a></p>
                 </div>
                 <div class="col-sm-2">
                     <br>
                     <button type="button" class="btn btn-success"
-                     (click)="acceptFriendRequest(request)">Accept</button>
+                     (click)="acceptFriendRequest(request)">Prihvati</button>
                     <br>
                     <br>
                     <button type="button" class="btn btn-danger"  
-                    (click)="rejectFriendRequest(request)">Decline</button>
+                    (click)="rejectFriendRequest(request)">Odbij</button>
                 </div>
             </div>
 

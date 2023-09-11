@@ -2,3 +2,9 @@
     color: black;
     width: 200%;
 }
+
+.postCenter{
+    margin: auto;
+  width: 50%;
+  padding: 10px;
+}

@@ -15,14 +15,14 @@
 
 <div class="form-row">
     <div class="form-group col-md-6">
-        <label for="inputFirstName"> First name </label>
-        <input type="text" formControlName="firstName" class="form-control" id="inputfirstName" placeholder="First name" required>
+        <label for="inputFirstName"> Ime </label>
+        <input type="text" formControlName="firstName" class="form-control" id="inputfirstName" placeholder="Ime" required>
     </div>
     
 
     <div class="form-group col-md-6">
-        <label for="inputLastName">Last name</label>
-        <input type="text" formControlName="lastName" class="form-control" id="inputLastName" placeholder="Last name" required>
+        <label for="inputLastName">Prezime</label>
+        <input type="text" formControlName="lastName" class="form-control" id="inputLastName" placeholder="Prezime" required>
     </div>    
     
 </div>
@@ -31,8 +31,8 @@
 <div class="d-flex justify-content-center">
 <div class="form-row">
     <div class="form-group col-md-6">
-        <label for="inputUsername"> Username </label>
-        <input type="text" formControlName="username" class="form-control" id="inputUsername" placeholder="Username" required>
+        <label for="inputUsername"> Korisnicko ime </label>
+        <input type="text" formControlName="username" class="form-control" id="inputUsername" placeholder="Korisnicko ime" required>
     </div>    
     <div class="form-group col-md-6">
         <label for="inputEmail">Email</label>
@@ -44,19 +44,19 @@
 
 <div class="form-row">
     <div class="form-group col-md-6">
-        <label for="inputPassword"> Password </label>
-        <input type="password"  formControlName="password" class="form-control" id="inputPassword" placeholder="Enter your password" required>
+        <label for="inputPassword"> Lozinka </label>
+        <input type="password"  formControlName="password" class="form-control" id="inputPassword" placeholder="Lozinka" required>
     </div>
     <div class="form-group col-md-6">
-        <label for="inputPasswordRepeat">Repeat password</label>
-        <input type="password" formControlName="repeatPassword" class="form-control" id="inputRepeatPassword" placeholder="Repeat password" required>
+        <label for="inputPasswordRepeat">Ponovite lozinku</label>
+        <input type="password" formControlName="repeatPassword" class="form-control" id="inputRepeatPassword" placeholder="Ponovite lozinku" required>
     </div>
 </div>
 </div>
 
 <div class="d-flex justify-content-center">
-<button type="submit" class="btn btn-primary" (click)="submitForm()"
-[disabled]="registrationForm.invalid || registrationForm.value.password !== registrationForm.value.repeatPassword">Register</button>
+<button [ngStyle]="{'background-color': '#3E1B59', 'border': '#3E1B59', 'margin': '1px'}" type="submit" class="btn btn-primary" (click)="submitForm()"
+enabled>Registracija</button>
 </div>
 <br>
 <div class="d-flex justify-content-center">

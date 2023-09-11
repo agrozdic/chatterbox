@@ -1,4 +1,4 @@
-<div>
+<div class="postCenter">
     <div  *ngFor="let post of posts" class="" style="max-width: 100%;">
 
             <div class="">
@@ -11,11 +11,11 @@
 
             <p> {{post.content}}</p>
                 
-             <button type="button" class="btn btn-info" (click)="getPostDetails(post)">Info</button>
+             <button [ngStyle]="{'background-color': '#A8107D', 'border': '#A8107D', 'margin': '1px'}" type="button" class="btn btn-info" (click)="getPostDetails(post)">Info</button>
              <br>
-             <p> Total hearts: {{post.reactions.hearts}}</p>
-             <p> Total likes: {{post.reactions.like}}</p>
-             <p> Total dislikes: {{post.reactions.dislike}}</p>
+             <p> Srca: {{post.reactions.hearts}}</p>
+             <p> Lajkovi: {{post.reactions.like}}</p>
+             <p> Dislajkovi: {{post.reactions.dislike}}</p>
 <hr class="hr" />
 
 
@@ -24,8 +24,8 @@
 
     </div>
     <br>
-    <button type="button" class="btn btn-success" (click)="sortPostsAscendingByDate()">Sort posts by date (ascending)</button>
-<button type="button" class="btn btn-success" (click)="sortPostsDescendingByDate()">Sort posts by date (descending)</button>
+    <button [ngStyle]="{'background-color': '#3E1B59', 'border': '#3E1B59', 'margin': '1px'}" type="button" class="btn btn-success" (click)="sortPostsAscendingByDate()">Sortiraj objave po datumu (rastuce)</button>
+<button [ngStyle]="{'background-color': '#3E1B59', 'border': '#3E1B59', 'margin': '1px'}" type="button" class="btn btn-success" (click)="sortPostsDescendingByDate()">Sortiraj objave po datumu (opadajuce)</button>
 
 
 </div>

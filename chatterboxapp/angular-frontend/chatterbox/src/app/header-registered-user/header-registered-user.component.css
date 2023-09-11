@@ -1,11 +1,10 @@
 .title p {
     padding: 12% 7% 4%;
     text-decoration: none;
-    color: rgb(28, 28, 173);
+    color: white;
 }
 
 .title {
-    background-color: white;
     margin-right: 3%;
     border-radius: 10%;
 

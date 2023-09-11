@@ -4,11 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ConnectSocialNetworkProjectApplication {
+public class java_backend {
 
 	public static void main(String[] args) {
 		
-		SpringApplication.run(ConnectSocialNetworkProjectApplication.class, args);
+		SpringApplication.run(java_backend.class, args);
 	}
 
 }

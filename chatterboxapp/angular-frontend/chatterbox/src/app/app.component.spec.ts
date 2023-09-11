@@ -22,16 +22,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'connectsocialnetworkproject'`, () => {
+  it(`should have as title 'chatterbox'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('connectsocialnetworkproject');
+    expect(app.title).toEqual('chatterbox');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('connectsocialnetworkproject app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('chatterbox app is running!');
   });
 });

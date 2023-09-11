@@ -248,6 +248,9 @@ public class UserController {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
 
 		}
+		else {
+			System.out.println("ADMINPASS --- " + passwordEncoder.encode("adminpass"));
+		}
 		String token = jwtUtil.generateToken((UserDetails) userLogin);
 		return new JwtReturn(token);
 		

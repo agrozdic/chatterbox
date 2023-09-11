@@ -1,26 +1,26 @@
 <app-header-registered-user></app-header-registered-user>
 <form>
-    <h1> Group details </h1>
+    <h1> Detalji grupe </h1>
     <div class="form-group">
-        <label for="inputGroupName"> Group id </label>
+        <label for="inputGroupName"> ID </label>
         <input type="number" disabled class="form-control" id="inputId" 
-            placeholder="Group id" value="{{this.group.groupId}}"> </div>
+            placeholder="ID" value="{{this.group.groupId}}"> </div>
     <div class="form-group">
-        <label for="inputGroupName"> Group name </label>
-        <input type="text" class="form-control" id="inputGroupName"  name="groupName" placeholder="Group name"  [(ngModel)]="group.name">
+        <label for="inputGroupName"> Naziv </label>
+        <input type="text" class="form-control" id="inputGroupName"  name="groupName" placeholder="Naziv"  [(ngModel)]="group.name">
     </div>
     <div class="form-group">
-        <label for="inputDescription"> Group description </label>
+        <label for="inputDescription"> Opis </label>
         <input type="text" class="form-control" id="inputDescription"
-         placeholder="Group description" name="groupDescription"  [(ngModel)]="group.description">
+         placeholder="Opis" name="groupDescription"  [(ngModel)]="group.description">
     </div>
     <div class="form-group">
-        <label for="inputCreationDate">Creation date</label>
-        <input type="text" class="form-control" id="inputDescription" placeholder="Creation date"
+        <label for="inputCreationDate">Datum kreiranja</label>
+        <input type="text" class="form-control" id="inputDescription" placeholder="Datum kreiranja"
             value="{{this.group.createdAt}}" disabled>
     </div>
  <div class="form-group">
-    <label for="exampleFormControlSelect1" disabled >Group admins</label>
+    <label for="exampleFormControlSelect1" disabled >Admministrator</label>
     <select class="form-control" id="exampleFormControlSelect1">
         <option *ngFor="let admin of admins">{{admin.user}}</option>
     </select>
@@ -40,19 +40,19 @@
                     <p class="card-text">{{ post.user }}</p>
                     <p class="card-text"><small class="text-muted">{{ post.creationDate }}</small></p>
                 </div>
-                <button type="button" class="btn btn-info" (click)="getPostDetails(post)">Info</button>
+                <button [ngStyle]="{'background-color': '#A8107D', 'border': '#A8107D', 'margin': '1px'}" type="button" class="btn btn-info" (click)="getPostDetails(post)">Info</button>
             </div>
         </div>
     </div>
 </div>
 
 
-    <button type="submit" class="btn btn-primary" (click)="updateGroup()">Edit group </button> 
-    <button type="button" class="btn btn-danger" *ngIf="isAdmin" (click)="deleteGroup()">Delete</button>
+    <button [ngStyle]="{'background-color': '#3E1B59', 'border': '#3E1B59', 'margin': '1px'}" type="submit" class="btn btn-primary" (click)="updateGroup()">Azuriraj </button> 
+    <button [ngStyle]="{'margin': '1px'}" type="button" class="btn btn-danger" *ngIf="isAdmin" (click)="deleteGroup()">Izbrisi</button>
 
 </form>
 <br>
 <br>
 <div class="alert alert-success" *ngIf="isGroupUpdated">
-    Group updated successfully.
+    Uspesno azurirana grupa.
 </div>
