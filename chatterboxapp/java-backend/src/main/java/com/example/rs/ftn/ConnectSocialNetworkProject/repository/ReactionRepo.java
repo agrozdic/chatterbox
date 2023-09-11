@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.example.rs.ftn.ConnectSocialNetworkProject.enumeration.ReactionType;
+import com.example.rs.ftn.ConnectSocialNetworkProject.model.entity.Comment;
 import com.example.rs.ftn.ConnectSocialNetworkProject.model.entity.Reaction;
 
 @Repository
@@ -25,5 +27,13 @@ public interface ReactionRepo extends JpaRepository<Reaction,Long> {
 	Optional<Reaction> findById(Long id); //optinal rukuje sa null vrednostima
 	
 	long count();
+	
+	List<Reaction> findAllByIsDeletedFalse();
+	
+    long countByCommentReactedToAndType(Comment comment, ReactionType reactionType);
+
+	
+	
+
 
 }

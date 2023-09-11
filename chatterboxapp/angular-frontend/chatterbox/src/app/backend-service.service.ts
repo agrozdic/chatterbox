@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from './user.model';
 import { RegistrationUser } from './registration-user';
 import { Observable, throwError } from 'rxjs';
@@ -15,6 +15,7 @@ import { GroupRequest } from './groupRequest';
 import { Comment } from 'src/app/comment';
 import { CreateComment } from './commentCreate';
 import { UpdatePostContent } from 'updatePostContent';
+import { CountReactions } from './countReactions';
 
 @Injectable({
   providedIn: 'root'
@@ -39,25 +40,26 @@ export class BackendServiceService {
   return this.http.post(this.apiUrl + '/user/registration', user);
   }
 
-  getUserPosts() {
-
-    let headers = new HttpHeaders({
+getUserPosts(sortOrder?: string) {
+  const headers = new HttpHeaders({
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${localStorage.getItem('token')}`
-  })
+  });
 
-
-  let requestOptions = { headers: headers };  
-return this.http.get(this.apiUrl + '/post/user', requestOptions);
-
+  let sortOrdertemp = "asc"
+  if (sortOrder !== undefined) {
+     sortOrdertemp = sortOrder;
   }
+
+  return this.http.get<Array<Post>>(this.apiUrl + `/post/user?sort=${sortOrdertemp}`, { headers });
+}
 
   getGroups() {
 
     let headers = new HttpHeaders({
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${localStorage.getItem('token')}`
-    })
+    }) 
 
     let requestOptions = { headers: headers };  
     return this.http.get(this.apiUrl + '/group/all', requestOptions);
@@ -217,13 +219,18 @@ getPostsInGroup(groupId: number) {
   return this.http.get<Array<Post>>(url, requestOptions);
 }
 
-getPostComments(postId: number) {
+getPostComments(postId: number,sortOrder?: string) {
   let headers = new HttpHeaders({
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${localStorage.getItem('token')}`
   });
+
+    let sortOrdertemp = "asc"
+  if (sortOrder !== undefined) {
+     sortOrdertemp = sortOrder;
+  }
    let requestOptions = { headers: headers }; 
-    const url = `${this.apiUrl}/comment/post/${postId}`;
+    const url = `${this.apiUrl}/comment/post/${postId}?sort=${sortOrdertemp}`;
   return this.http.get<Array<Comment>>(url, requestOptions);
 }
 
@@ -269,14 +276,25 @@ deleteComment(id: number) {
 
 }
 
-replyToComment(postId: number,id: number) {
+replyToComment(comment: CreateComment,postId: number,id: number) {
    let headers = new HttpHeaders({
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${localStorage.getItem('token')}`
   });
   let requestOptions = { headers: headers };
     const url = `${this.apiUrl}/comment/reply/${postId}/${id}`;
-     return this.http.delete(url, requestOptions);
+  return this.http.post<Comment>(url,comment, requestOptions);
 }
+
+countReactions(commentId: number) {
+   let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+  let requestOptions = { headers: headers };
+    const url = `${this.apiUrl}/comment/reactions/${commentId}`;
+  return this.http.get<CountReactions>(url, requestOptions);
+}
+
 
 }

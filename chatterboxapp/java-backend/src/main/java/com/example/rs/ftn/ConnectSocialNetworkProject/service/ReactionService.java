@@ -7,7 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.example.rs.ftn.ConnectSocialNetworkProject.enumeration.ReactionType;
 import com.example.rs.ftn.ConnectSocialNetworkProject.exception.ReactionNotFoundException;
+import com.example.rs.ftn.ConnectSocialNetworkProject.model.entity.Comment;
 import com.example.rs.ftn.ConnectSocialNetworkProject.model.entity.Reaction;
 import com.example.rs.ftn.ConnectSocialNetworkProject.repository.ReactionRepo;
 
@@ -41,6 +43,19 @@ public class ReactionService {
 		public Reaction updateReaction(Reaction Reaction) {
 			return reactionRepo.save(Reaction);
 		}
+		
+		public List<Reaction> findAllUndeletedReactions() {
+			return reactionRepo.findAllByIsDeletedFalse();
+		}
+		
+
+		 public Reaction addReaction(Reaction reaction) {   
+		       return reactionRepo.save(reaction);
+	    }
+		 
+		 public long countByCommentReactedToAndType(Comment comment, ReactionType reactionType) {
+			 return reactionRepo.countByCommentReactedToAndType(comment, reactionType);
+		 }
 	    
 }
 
