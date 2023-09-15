@@ -24,6 +24,7 @@ import com.example.rs.ftn.ConnectSocialNetworkProject.service.CommentService;
 import com.example.rs.ftn.ConnectSocialNetworkProject.service.PostService;
 import com.example.rs.ftn.ConnectSocialNetworkProject.service.ReportService;
 import com.example.rs.ftn.ConnectSocialNetworkProject.service.UserService;
+import org.apache.logging.log4j.*;
 
 @RestController
 @RequestMapping("/report")
@@ -34,7 +35,8 @@ public class ReportController {
 	private final PostService postService;
 	private final CommentService commentService;
 	private final JwtUtil jwtUtil;
-	
+	private static Logger logger = LogManager.getLogger(ReportController.class);
+
 	public ReportController(ReportService reportService, UserService userService,PostService postService,
 			CommentService commentService,
 			JwtUtil jwtUtil) {
@@ -68,6 +70,8 @@ public class ReportController {
 	    	reports = reportService.findAllUndeletedReports();
 	    }
 
+		logger.info("Prikazane prijave.");
+
 	    return reports;
     }
 	
@@ -100,7 +104,9 @@ public class ReportController {
 		newReport.setReportReason(report.getReportReason());
 		newReport.setByUser(userLogged);
 		newReport.setReportedPost(post);
-		
+
+		logger.info("Kreirana prijava za objavu.");
+
 		    return new ResponseEntity<>(newReport, HttpStatus.OK);
 	}
 	
@@ -134,7 +140,9 @@ public class ReportController {
 		newReport.setReportReason(report.getReportReason());
 		newReport.setByUser(userLogged);
 		newReport.setReportedComment(comment);
-		
+
+		logger.info("Kreirana prijava za komentar.");
+
 		    return new ResponseEntity<>(newReport, HttpStatus.OK);
 	}
 	
@@ -168,7 +176,9 @@ public class ReportController {
 		newReport.setReportReason(report.getReportReason());
 		newReport.setByUser(userLogged);
 		newReport.setUser(reportedUser);
-		
+
+		logger.info("Kreirana prijava za korisnika.");
+
 		    return new ResponseEntity<>(newReport, HttpStatus.OK);
 	}
 	

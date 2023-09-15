@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -45,8 +47,8 @@ public class PostController {
 	private final ReactionService reactionService;
 	private final CommentService commentService;
 	private final JwtUtil jwtUtil;
+	private static Logger logger = LogManager.getLogger(PostController.class);
 
-	
 	public PostController(PostService postService,UserService
 			userService,ImageService imageService,ReactionService reactionService,
 			CommentService commentService,JwtUtil jwtUtil) {
@@ -81,6 +83,8 @@ public class PostController {
 	            posts.sort(Comparator.comparing(Post::getCreationDate).reversed());
 	        }
 
+		 logger.info("Prikazane sve objave.");
+
 	        return posts;
 	    }
 	
@@ -108,6 +112,8 @@ public class PostController {
 		        image.setBelongsTo(dbPost);
 		        imageService.addImage(image);
 		    }
+
+		logger.info("Dodata objava.");
 
 		    return new ResponseEntity<>(dbPost, HttpStatus.OK);
 	}
@@ -153,6 +159,9 @@ public class PostController {
 		
 		
 		Post updatedPost = postService.updatePost(oldPost);
+
+		logger.info("Azurirana objava.");
+
 		return new ResponseEntity<>(updatedPost,HttpStatus.OK);
 		
 	}
@@ -177,6 +186,9 @@ public class PostController {
 		
 		 postForDeletion.setDeleted(true);
 		 postService.updatePost(postForDeletion);
+
+		logger.info("Obrisana objava.");
+
 		return new Message("Post deleted succesfuly.");
 		
 	}
@@ -216,6 +228,8 @@ public class PostController {
 	        p.setImagePaths(postImages);
 	    }
 
+		logger.info("Prikazane sve objave.");
+
 	    return new ResponseEntity<>(posts, HttpStatus.OK);
 	}
 
@@ -237,6 +251,9 @@ public class PostController {
 //	     for (Comment comment: undeletedComments) {
 //			System.out.println(comment.getId());
 //		}
+
+		logger.info("Prikazana objava.");
+
 	    return post;
 	   
 	}
@@ -262,7 +279,10 @@ public class PostController {
 	    long dislikes = reactionService.countByPostReactedAndType(post, ReactionType.DISLIKE);
 	    
 	    ReactionCount reactionCount = new ReactionCount(hearts,dislikes,likes);
-	    
+
+		logger.info("Prikazane reakcije na objavu.");
+
+
 	    return reactionCount;
 
 	  

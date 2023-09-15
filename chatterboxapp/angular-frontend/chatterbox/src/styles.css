@@ -3,6 +3,23 @@
     src: url(ArialRounded.ttf);
 }
 
+@font-face {
+    font-family: ArialRoundedRegular;
+    src: url(ArialRoundedRegular.ttf);
+}
+
+body, html{
+    max-width: 100%;
+}
+
+div, a{
+    padding: 10px;
+}
+
+*{
+    font-family: ArialRoundedRegular;
+}
+
 .title{
     background-color: transparent;
 }
@@ -10,10 +27,4 @@
 .navbar-brand {
     font-family: ArialRounded;
     color: white;
-}
-
-body, html{
-    max-width: 100%;
-    padding-left: 1%;
-    padding-right: 1%;
 }

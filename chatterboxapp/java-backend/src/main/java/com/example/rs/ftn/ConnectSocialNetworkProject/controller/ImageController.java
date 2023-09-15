@@ -1,5 +1,8 @@
 package com.example.rs.ftn.ConnectSocialNetworkProject.controller;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -30,7 +33,8 @@ public class ImageController {
 	private final ImageService imageService;
 	private final UserService userService;
 	private final JwtUtil jwtUtil;
-	
+	private static Logger logger = LogManager.getLogger(ImageController.class);
+
 	public ImageController(PostService postService,ImageService imageService,UserService
 			userService,JwtUtil jwtUtil) {
 		this.postService = postService;
@@ -57,6 +61,8 @@ public class ImageController {
 		for (Image image: images) {
 			System.out.println(image.getId());
 		}
+
+		logger.info("Prikazane slike.");
 		
         return images;
 		
@@ -75,7 +81,7 @@ public class ImageController {
 		Image newImage = new Image();
 		newImage.setPath(image.getImagePath());
 
-		
+		logger.info("Dodata slika.");
 		
 		return new ResponseEntity<>(imageService.addImage(newImage),HttpStatus.OK);
 	}
@@ -100,6 +106,9 @@ public class ImageController {
 		
 		imageForDeletion.setDeleted(true);
 		 imageService.updateImage(imageForDeletion);
+
+		logger.info("Obrisana slika.");
+
 		return new Message("Image deleted succesfuly.");
 		
 	}

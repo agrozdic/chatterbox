@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -33,7 +35,8 @@ public class FriendRequestController {
 	private final UserService userService;
 	private final FriendRequestService friendRequestService;
 	private final JwtUtil jwtUtil;
-	
+	private static Logger logger = LogManager.getLogger(FriendRequestController.class);
+
 	public FriendRequestController(UserService userService,FriendRequestService friendRequestService, JwtUtil jwtUtil) {
 		super();
 		this.userService = userService;
@@ -73,6 +76,8 @@ public class FriendRequestController {
 		
         newFriendRequest.setSentBy(userLogged);		
         FriendRequest friendRequestCreated = friendRequestService.addFriendRequest(newFriendRequest);
+
+		logger.info("Poslat zahtev za prijateljstvo.");
 		
 		return new ResponseEntity<>(newFriendRequest,HttpStatus.OK);
 	}
@@ -100,6 +105,8 @@ public class FriendRequestController {
 	    	friendRequests = friendRequestService.findByApprovedFalse(userLogged);
 	         System.out.println(friendRequests);
 	    }
+
+		logger.info("Ucitani zahtevi za prijateljstvo.");
 
 
 	    return new ResponseEntity<>(friendRequests, HttpStatus.OK);
@@ -144,6 +151,8 @@ public class FriendRequestController {
 		    	friends.add(userFriend);
 		    }
 	    }
+
+		logger.info("Ucitani prijatelji.");
 	    
 
 	    return new ResponseEntity<List<User>>(friends, HttpStatus.OK);
@@ -172,9 +181,12 @@ public class FriendRequestController {
 	    existingFriendRequest.setAt(LocalDateTime.now());
 	    
 	    if (!existingFriendRequest.isApproved()){
+			logger.info("Odbijen zahtev za prijateljstvo.");
 	    	friendRequestService.remove(friendRequestId);
 			return new ResponseEntity<>(existingFriendRequest,HttpStatus.OK);
 	    }
+
+		logger.info("Prihvacen zahtev za prijateljstvo.");
 	    
 	    FriendRequest updatedFriendRequest = friendRequestService.updateFriendRequest(existingFriendRequest);
 

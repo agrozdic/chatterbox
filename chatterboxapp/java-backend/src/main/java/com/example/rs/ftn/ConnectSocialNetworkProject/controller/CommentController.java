@@ -33,6 +33,7 @@ import com.example.rs.ftn.ConnectSocialNetworkProject.service.CommentService;
 import com.example.rs.ftn.ConnectSocialNetworkProject.service.PostService;
 import com.example.rs.ftn.ConnectSocialNetworkProject.service.ReactionService;
 import com.example.rs.ftn.ConnectSocialNetworkProject.service.UserService;
+import org.apache.logging.log4j.*;
 
 @RestController
 @RequestMapping("/comment")
@@ -43,6 +44,7 @@ public class CommentController {
 	private final PostService postService;
 	private final ReactionService reactionService;
 	private final JwtUtil jwtUtil;
+	private static Logger logger = LogManager.getLogger(CommentController.class);
 	
 	public CommentController(CommentService commentService,UserService
 			userService,PostService postService,ReactionService reactionService,JwtUtil jwtUtil) {
@@ -70,6 +72,8 @@ public class CommentController {
 		for (Comment comment: comments) {
 			System.out.println(comment.getId());
 		}
+
+		logger.info("Ucitani komentari.");
 		
         return comments;
 		
@@ -100,6 +104,8 @@ public class CommentController {
 		newComment.setTimestamp(LocalDate.now());
 		newComment.setUser(userLogged);
 	    newComment.setCommentedPost(post);
+
+		logger.info("Komentar je objavljen.");
 		
 		return new ResponseEntity<>(commentService.addComment(newComment),HttpStatus.OK);
 	}
@@ -123,8 +129,9 @@ public class CommentController {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"You are not creator of this comment.");
 		}
 		//oldPost.setUser(userLogged);
-		
-		
+
+		logger.info("Azuriran komentar");
+
 		Comment updatedComment = commentService.updateComment(oldComment);
 		return new ResponseEntity<>(updatedComment,HttpStatus.OK);
 		
@@ -147,7 +154,9 @@ public class CommentController {
 				!commentForDeletion.getUser().equals("admin")) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"You are not creator of this comment.");
 		}
-		
+
+		logger.info("Komentar obrisan.");
+
 		commentForDeletion.setDeleted(true);
 		 commentService.updateComment(commentForDeletion);
 		return new Message("Comment deleted succesfuly.");
@@ -202,12 +211,15 @@ public class CommentController {
 	            reactionService.countByCommentReactedToAndType(c1, ReactionType.HEART)
 	        ));
 	    }
-	    
-	    
+
+
 	    
 	    else if (sort.equalsIgnoreCase("desc")) {
 	        comments.sort(Comparator.comparing(Comment::getTimestamp).reversed());
 	    }
+
+		logger.info("Komentari ucitani.");
+
 	    return comments;
 	}
 	
@@ -253,6 +265,8 @@ public class CommentController {
 		    newReply.setParentComment(parentComment);
 		    newReply.setCommentedPost(post);
 
+			logger.info("Objavljen odgovor na komentar.");
+
 		    return new ResponseEntity<>(commentService.addComment(newReply), HttpStatus.OK);
 		}
 		
@@ -278,7 +292,9 @@ public class CommentController {
 		    long dislikes = reactionService.countByCommentReactedToAndType(parentComment, ReactionType.DISLIKE);
 		    
 		    ReactionCount reactionCount = new ReactionCount(hearts,dislikes,likes);
-		    
+
+			logger.info("Ucitane reakcije na komentar.");
+
 		    return reactionCount;
 
 		  

@@ -3,6 +3,8 @@ package com.example.rs.ftn.ConnectSocialNetworkProject.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -41,7 +43,8 @@ public class ReactionController {
 	private final PostService postService;
 	private final CommentService commentService;
 	private final JwtUtil jwtUtil;
-	
+	private static Logger logger = LogManager.getLogger(ReactionController.class);
+
 	public ReactionController(ReactionService reactionService,UserService userService,PostService postService,
 			CommentService commentService,JwtUtil jwtUtil) {
 		this.reactionService = reactionService;
@@ -65,8 +68,9 @@ public class ReactionController {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User is not admin");
 		}
 		List<Reaction> reactions = reactionService.findAllUndeletedReactions();
-		
-		
+
+		logger.info("Prikazane sve reakcije.");
+
         return reactions;
 		
 	}
@@ -103,6 +107,7 @@ public class ReactionController {
 	            return new ResponseEntity<>(existingReaction, HttpStatus.OK);
 	        } else {
 	            existingReaction.setType(reaction.getType());
+				logger.info("Azurirana reakcija na objavu.");
 	            return new ResponseEntity<>(reactionService.updateReaction(existingReaction), HttpStatus.OK);
 	        }
 	    }
@@ -113,6 +118,8 @@ public class ReactionController {
 	    newReaction.setTimestamp(LocalDate.now());
 	    newReaction.setCommentReactedTo(null);
 	    newReaction.setUserReacted(userLogged);
+
+		logger.info("Kreirana reakcija na objavu.");
 
 	    return new ResponseEntity<>(reactionService.addReaction(newReaction), HttpStatus.OK);
 	}
@@ -151,6 +158,7 @@ public class ReactionController {
 		            return new ResponseEntity<>(existingReaction, HttpStatus.OK);
 		        } else {
 		            existingReaction.setType(reaction.getType());
+					logger.info("Azurirana reakcija na komentar.");
 		            return new ResponseEntity<>(reactionService.updateReaction(existingReaction), HttpStatus.OK);
 		        }
 		    }
@@ -161,6 +169,8 @@ public class ReactionController {
 		newReaction.setType(reaction.getType());
 		newReaction.setTimestamp(LocalDate.now());
 		newReaction.setUserReacted(userLogged);
+
+		logger.info("Kreirana reakcija na komentar.");
 		
 		return new ResponseEntity<>(reactionService.addReaction(newReaction),HttpStatus.OK);
 	}
@@ -186,6 +196,9 @@ public class ReactionController {
 		
 		
 		Reaction updatedReaction = reactionService.updateReaction(oldReaction);
+
+		logger.info("Azurirana reakcija.");
+
 		return new ResponseEntity<>(updatedReaction,HttpStatus.OK);
 		
 	}
@@ -211,6 +224,9 @@ public class ReactionController {
 		
 		reactionForDeletion.setDeleted(true);
 		 reactionService.updateReaction(reactionForDeletion);
+
+		logger.info("Obrisana reakcija.");
+
 		return new Message("Reaction deleted succesfuly.");
 		
 	}

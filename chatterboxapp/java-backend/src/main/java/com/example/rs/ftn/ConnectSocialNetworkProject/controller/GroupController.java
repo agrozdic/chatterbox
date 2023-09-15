@@ -5,6 +5,7 @@ package com.example.rs.ftn.ConnectSocialNetworkProject.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.logging.log4j.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -44,7 +45,10 @@ public class GroupController {
 	private final GroupAdminService groupAdminService;
 	
 	private final PostService postService;
-	
+
+	private static Logger logger = LogManager.getLogger(GroupController.class);
+
+
 	public GroupController(GroupService groupService,UserService userService,GroupAdminService groupAdminService,PostService
 			postService) {
 		this.groupAdminService = groupAdminService;
@@ -76,7 +80,9 @@ public class GroupController {
 		Group groupCreated = groupService.addGroup(newGroup);
 		GroupAdmin newGroupAdmin = new GroupAdmin(userLogged,groupCreated);
 		groupAdminService.addGroupAdmin(newGroupAdmin);
-		
+
+		logger.info("Kreirana grupa.");
+
 		return new ResponseEntity<>(newGroup,HttpStatus.OK);
 	}
 	
@@ -98,6 +104,8 @@ public class GroupController {
 	    } else {
 	        groups = groupService.findAllUndeletedGroups();
 	    }
+
+		logger.info("Prikazane grupe.");
 
 	    return groups;
 	}
@@ -138,6 +146,9 @@ public class GroupController {
 			 
 		 }
 		 groupService.updateGroup(groupForDeletion);
+
+		logger.info("Obrisana grupa.");
+
 		return new Message("Sucessfuly delete.");	
 	}
 	
@@ -176,6 +187,9 @@ public class GroupController {
 		 }
 		
 		 Group updatedGroup = groupService.updateGroup(oldGroup);
+
+		logger.info("Azurirana grupa.");
+
 		return new ResponseEntity<>(updatedGroup,HttpStatus.OK);
 		
 	}
@@ -222,6 +236,9 @@ public class GroupController {
 		newPost.setUser(userLogged);
 		
 		postService.addPost(newPost);
+
+		logger.info("Kreirana objava.");
+
 		return new Message("Post added succesfuly.");
 		
 	}
@@ -257,6 +274,7 @@ public class GroupController {
 	    }
 	    
 	    if (isMemberOrAdmin) {
+			logger.info("Prikazana grupa.");
 	        return new ResponseEntity<>(group, HttpStatus.OK);
 	    } else {
 		    return new ResponseEntity<>(new Message("You are not member or admi nof this group."), HttpStatus.UNAUTHORIZED);

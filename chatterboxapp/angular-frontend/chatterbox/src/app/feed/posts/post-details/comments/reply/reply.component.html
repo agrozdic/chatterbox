@@ -45,7 +45,7 @@
                 <input type="text" class="form-control" id="textComment" name="text" placeholder="Reply something ..."
                     [(ngModel)]="replyText">
                 <br>
-                <button class="btn btn-info" (click)="replyToComment(reply, replyText)">Odgovori</button>
+                <button [ngStyle]="{'background-color': '#3E1B59', 'border': '#3E1B59', 'margin': '1px'}" class="btn btn-info" (click)="replyToComment(reply, replyText)">Odgovori</button>
             </div>
 
             <br>

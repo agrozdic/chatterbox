@@ -2,6 +2,8 @@ package com.example.rs.ftn.ConnectSocialNetworkProject.controller;
 
 import java.time.LocalDateTime;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,7 +33,8 @@ public class GroupRequestController {
 	private final GroupService groupService;
 	private final GroupRequestService groupRequestService;
 	private final JwtUtil jwtUtil;
-	
+	private static Logger logger = LogManager.getLogger(GroupRequestController.class);
+
 	public GroupRequestController(UserService userService,GroupRequestService groupRequestService, JwtUtil jwtUtil,
 			GroupService groupService) {
 		super();
@@ -72,7 +75,9 @@ public class GroupRequestController {
 		
 		newGroupRequest.setUser(userLogged);		
 		GroupRequest groupRequestCreated = groupRequestService.addGroupRequest(newGroupRequest);
-		
+
+		logger.info("Poslat zahtev za grupu.");
+
 		return new ResponseEntity<>(newGroupRequest,HttpStatus.OK);
 	}
 	
@@ -98,6 +103,8 @@ public class GroupRequestController {
 	    if (groupRequest == null) {
 	        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Group request not found.");
 	    }
+
+		logger.info("Prikazani zahtevi za grupu.");
 
 	    return ResponseEntity.ok(groupRequest);
 	}

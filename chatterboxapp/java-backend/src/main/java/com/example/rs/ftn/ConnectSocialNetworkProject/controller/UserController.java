@@ -47,6 +47,7 @@ import com.example.rs.ftn.ConnectSocialNetworkProject.service.GroupRequestServic
 import com.example.rs.ftn.ConnectSocialNetworkProject.service.GroupService;
 import com.example.rs.ftn.ConnectSocialNetworkProject.service.ImageService;
 import com.example.rs.ftn.ConnectSocialNetworkProject.service.UserService;
+import org.apache.logging.log4j.*;
 
 @RestController
 @RequestMapping("/user")
@@ -62,8 +63,8 @@ public class UserController {
 	private final GroupService groupService;
 	private final JwtUtil jwtUtil;
 	private final FriendRequestService friendRequestService;
+	private static Logger logger = LogManager.getLogger(UserController.class);
 
-	
 	public UserController(UserService userService,ImageService imageService,
 			GroupAdminService groupAdminService,GroupRequestService groupRequestService,GroupService groupService,
 			JwtUtil jwtUtil, FriendRequestService friendRequestService) {
@@ -91,6 +92,9 @@ public class UserController {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User is not admin");
 		}
 		List<User> users = userService.findAll();
+
+		logger.info("Prikazani korisnici.");
+
         return new ResponseEntity<>(users, HttpStatus.OK);
 
 	}
@@ -138,6 +142,9 @@ public class UserController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(users, HttpStatus.OK);
 		}
+
+		logger.info("Prikazani korisnici.");
+
         return new ResponseEntity<>(users, HttpStatus.OK);
 
 	}
@@ -154,6 +161,9 @@ public class UserController {
 		
 		Image profileImage = imageService.findTopByPostedImageBy_UsernameOrderByCreatedAtDesc(username);
 		user.setProfileImage(profileImage);
+
+		logger.info("Prikazan korisnik.");
+
         return new ResponseEntity<>(user, HttpStatus.OK);
 
 	}
@@ -161,6 +171,9 @@ public class UserController {
 	@PostMapping("/add")//   /user/add
 	public ResponseEntity<User> addUser(@RequestBody User user) {
 		User newUser = userService.addUser(user);
+
+		logger.info("Kreiran korisnik.");
+
 		return new ResponseEntity<>(newUser,HttpStatus.CREATED);
 	}
 	
@@ -188,7 +201,10 @@ public class UserController {
 	    
 
 	    User updatedUser = userService.updateUser(userLogged);
-	    updatedUser.setProfileImage(image); 
+	    updatedUser.setProfileImage(image);
+
+		logger.info("Azuriran korisnik.");
+
 	    return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 	}
 	
@@ -197,6 +213,9 @@ public class UserController {
 	@DeleteMapping("/delete/{username}")
 	public ResponseEntity<?> deleteUser(@PathVariable("username") String username) {
 		 userService.remove(username);
+
+		logger.info("Obrisan korisnik.");
+
 		return new ResponseEntity<>(HttpStatus.OK);
 		
 	}
@@ -228,6 +247,8 @@ public class UserController {
 		        groups.add(groupRequestedGroup);
 		    	
 		    }
+
+		logger.info("Prikazane grupe korisnika.");
 		    
 		    return new ResponseEntity<>(groups, HttpStatus.OK);		    
 		    
@@ -249,9 +270,12 @@ public class UserController {
 
 		}
 		else {
-			System.out.println("ADMINPASS --- " + passwordEncoder.encode("adminpass"));
+			//System.out.println("ADMINPASS --- " + passwordEncoder.encode("adminpass"));
 		}
 		String token = jwtUtil.generateToken((UserDetails) userLogin);
+
+		logger.info("Uspesno logovanje.");
+
 		return new JwtReturn(token);
 		
 	}
@@ -308,6 +332,9 @@ public class UserController {
 		User newUser = new User(Role.USER,userRegister.getUsername(), encodedPassword, userRegister.getEmail(),
 				userRegister.getFirstName(), userRegister.getLastName(),null,null,LocalDateTime.now(),false);
 	    userService.addUser(newUser);
+
+		logger.info("Uspesna registracija.");
+
 	    return new Message("Registration successful.");	
 	}
 	
@@ -331,7 +358,10 @@ public class UserController {
 	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "New password must be at least 8 characters long.");
 	    }
 	    userService.changePassword(userLogged.getUsername(),request.getOldPassword(), request.getNewPassword(),request.getRepeatNewPassword());
-	    return new ResponseEntity<>(new Message("Password changed successfully."), HttpStatus.OK);
+
+		logger.info("Uspesno promenjena lozinka.");
+
+		return new ResponseEntity<>(new Message("Password changed successfully."), HttpStatus.OK);
 	}	
 	
 
