@@ -1,3 +1,4 @@
+# chatterbox
 <b><i>ChatterBox</i></b> is a Reddit-like social media platform for connecting with people across the globe.\
 \
 \
