@@ -2,4 +2,4 @@ Chatterbox is a Reddit-like social media platform for connecting with people acr
 \
 Backend: Java Spring Boot\
 Frontend: Angular\
-Database: MySQL\
+Database: MySQL
